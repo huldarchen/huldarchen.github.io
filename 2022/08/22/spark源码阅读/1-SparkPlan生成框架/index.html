@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#33363b">
+    <meta name="msapplication-TileColor" content="#33363b">
+    
+    
+    
+    
+    <meta name="keywords" content="Life, ARIA, Hexo">
+    
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
+    
+    
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicons/android-chrome-192x192.png">
+    
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+    
+    
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+    
+    
+    <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#33363b">
+    
+    
+    <link rel="manifest" href="/favicons/site.webmanifest">
+    
+    
+    <meta name="msapplication-config" content="/favicons/browserconfig.xml">
+    
+    
+    <link rel="alternate" href="/atom.xml" title="huldarchen's 博客" type="application/atom+xml" />
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="/favicons/favicon.ico">
+    
+    
+    <link rel="stylesheet" type="text/css" href="/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+    
+    <link rel="stylesheet" type="text/css" href="/css/sidebar.css">
+    
+    
+<link rel="stylesheet" type="text/css" href="/css/page.css">
+<link rel="stylesheet" type="text/css" href="/css/post.css">
+
+    <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    <link rel="stylesheet" type="text/css" href="/css/atom-one-dark.css">
+    <link rel="stylesheet" type="text/css" href="/css/lightgallery.min.css">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script defer type="text/javascript" src="/js/util.js"></script>
+    <script defer type="text/javascript" src="/js/clipboard.min.js"></script>
+    <script defer type="text/javascript" src="/js/scrollspy.js"></script>
+    <script defer type="text/javascript" src="/js/fontawesome-all.min.js"></script>
+    <script defer type="text/javascript" src="/js/lightgallery.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-fullscreen.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-hash.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-pager.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-thumbnail.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-zoom.min.js"></script>
+    
+    <script defer src="/js/busuanzi.pure.mini.js"></script>
+    
+    
+    <script defer type="text/javascript" src="/js/search.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+      var searchPath = "search.xml";
+      if (searchPath.length === 0) {
+        searchPath = "search.xml";
+      }
+      var path = "/" + searchPath;
+      searchFunc(path, "search-input", "search-result");
+    });
+    </script>
+    
+    
+    <script defer type="text/javascript" src="/js/index.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+      var cb = null;
+      var els = $(".post figure.highlight");
+      if (els.length) {
+        // Enabled Hexo highlight line number.
+        $(els).each(function (i, e) {
+          // $(e).before("<button class=\"copy button\">Copy</button>");
+          $(e).before([
+            "<div class=\"code-titlebar\">",
+              "<div class=\"titlebar-left\">",
+                "<button class=\"copy\" aria-label=\"Copy\"><i class=\"far fa-copy\"></i></button>",
+              "</div>",
+              "<div class=\"titlebar-center\">",
+                "code",
+              "</div>",
+              "<div class=\"titlebar-right\">",
+                "<button class=\"button-dot dot-minimize\" aria-label=\"Decoration\"></button>",
+                "<button class=\"button-dot dot-maximize\" aria-label=\"Decoration\"></button>",
+                "<button class=\"button-dot dot-close\" aria-label=\"Decoration\"></button>",
+              "</div>",
+            "</div>"
+          ].join(""));
+        });
+        cb = new ClipboardJS("button.copy", {
+          "target": function (trigger) {
+              // Get target element by DOM API.
+              return trigger.parentNode.parentNode.nextElementSibling.firstChild.firstChild.firstChild.lastChild.firstChild.firstChild;
+          }
+        });
+      } else {
+        // Disabled Hexo highlight line number.
+        els = $(".post pre code");
+        $(els).each(function (i, e) {
+          // Add button before pre, not code.
+          // $(e).parent().before("<button class=\"copy button\">Copy</button>");
+          $(e).before([
+            "<div class=\"code-titlebar\">",
+              "<div class=\"titlebar-left\">",
+                "<button class=\"copy\" aria-label=\"Copy\"><i class=\"far fa-copy\"></i></button>",
+              "</div>",
+              "<div class=\"titlebar-center\">",
+                "code",
+              "</div>",
+              "<div class=\"titlebar-right\">",
+                "<button class=\"button-dot dot-minimize\" aria-label=\"Decoration\"></button>",
+                "<button class=\"button-dot dot-maximize\" aria-label=\"Decoration\"></button>",
+                "<button class=\"button-dot dot-close\" aria-label=\"Decoration\"></button>",
+              "</div>",
+            "</div>"
+          ].join(""));
+        });
+        cb = new ClipboardJS("button.copy", {
+          "target": function (trigger) {
+              // Get target element by DOM API.
+              return trigger.parentNode.parentNode.nextElementSibling;
+          }
+        });
+      }
+      cb.on("success", function (e) {
+        e.clearSelection();
+        var trigger = e.trigger;
+        // Change button text as a user tip.
+        trigger.innerHTML = "<i class=\"far fa-check-square\"></i>";
+        $(trigger).addClass("copied");
+        // Change button text back;
+        setTimeout(function () {
+          trigger.innerHTML = "<i class=\"far fa-copy\"></i>";
+          $(trigger).removeClass("copied");
+        }, 1500);
+      });
+    });
+    </script>
+    
+    <script defer type="text/javascript" src="/js/custom.js"></script>
+    <title> | huldarchen's 博客</title>
+  <meta name="generator" content="Hexo 6.1.0"></head>
+  <body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN"  data-spy="scroll" data-target=".list-group">
+    
+<header id="header" class="header" style="background: #33363b;">
+  <div class="container">
+    <div class="header-container">
+      <div class="header-title">
+        <h1 class="title"><a href="/">huldarchen's 博客</a></h1>
+        <h2 class="subtitle"></h2>
+      </div>
+      
+      <div class="logo">
+        <img src="/images/logo.png" alt="logo">
+      </div>
+      
+    </div>
+    <nav id="nav" class="nav">
+      <a id="nav-toggle" class="nav-toggle" aria-hidden="true"><i class="fas fa-bars" aria-label="Toggle Navbar"></i></a>
+      <ul id="menu" role="menubar" aria-hidden="false">
+        
+        <li role="menuitem"><a href="/"><i class="fas fa-home"></i><span class="menu-text">Home</span></a></li>
+        
+        <li role="menuitem"><a href="/archives/"><i class="fas fa-archive"></i><span class="menu-text">Archives</span></a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+
+    <main id="main" class="main">
+      <div class="container">
+        <div class="main-container">
+          <div class="content">
+            
+<div id="post" class="page">
+  
+  <article class="article post card" itemscope itemtype="http://schema.org/Article">
+    <div class="post-block">
+      <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/22/spark%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/1-SparkPlan%E7%94%9F%E6%88%90%E6%A1%86%E6%9E%B6/">
+      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+       <meta itemprop="name" content="huldar chen">
+       <meta itemprop="description" content="">
+       <meta itemprop="image" content="/images/avatar.png">
+      </span>
+      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+       <meta itemprop="name" content="huldarchen's 博客">
+      </span>
+    </div>
+    <header class="post-header">
+      <h1 class="post-title" itemprop="name headline"></h1>
+      <div class="post-meta">
+        
+        <span class="post-date">
+          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2022-08-22T21:28:18+08:00">2022-08-22 21:28:18</time></span>
+        </span>
+        
+        
+        
+      </div>
+    </header>
+    <main class="post-main" itemprop="articleBody">
+      <h1 id="1-SparkPlan生成框架"><a href="#1-SparkPlan生成框架" class="headerlink" title="1-SparkPlan生成框架"></a>1-SparkPlan生成框架</h1><h2 id="0-准备知识"><a href="#0-准备知识" class="headerlink" title="0. 准备知识"></a>0. 准备知识</h2><p>RDD(Resilient Distributed Datasets)，直译为弹性分布式数据集，是spark中最核心的概念。RDD是对数据的虚拟抽象，本身不包含真实的数据。RDD详细描述可参考<a target="_blank" rel="noopener" href="http://people.csail.mit.edu/matei/papers/2012/nsdi_spark.pdf">论文</a>，这里不做过多介绍。</p>
+<p>spark的计算流程：</p>
+<ol>
+<li>数据集通过spark接口转换成RDD，例如：<code>textFile</code>，<code>hadoopFile</code>，<code>binaryFiles</code>等</li>
+<li>根据业务逻辑，使用transform算子（<code>map</code>，<code>filter</code>，<code>flatMap</code>，<code>union</code>，<code>distinct</code>，<code>reduceByKey</code>等）、action算子（<code>reduce</code>，<code>collect</code>，<code>count</code>，<code>first</code>，<code>saveAsTextFile</code>等）将RDD组装成DAG（有向无环图）。可以简单理解是数据的加工计算链路。</li>
+<li>调用action算子时，数据通过上述的DAG链路，计算结果后输出。</li>
+</ol>
+<p>以最熟悉的word count为例，计算流程如图：</p>
+<p><img src="https://raw.githubusercontent.com/huldarchen/node_image/master/2022/image_1661101103725_0.png" alt="image_1661101103725_0"></p>
+<h2 id="1-SparkPlan是什么"><a href="#1-SparkPlan是什么" class="headerlink" title="1. SparkPlan是什么"></a>1. SparkPlan是什么</h2><h3 id="1-1-SparkPlan是什么"><a href="#1-1-SparkPlan是什么" class="headerlink" title="1.1 SparkPlan是什么"></a>1.1 SparkPlan是什么</h3><p>一条SQL经过parser转化成LogicalPlan（逻辑执行计划），LogicalPlan经过Analyzer、Optimizer解析、优化后，生成更适合计算的LogicalPlan。LogicalPlan简单理解为数据大概的（逻辑上的）计算过程（<em>类比设计师设计的图纸</em>），不能真正的运行，因为缺少必须的要素，如数据（RDD）以及具体的算子的执行算法等。SparkPlan就是要将计算缺少的要素具象化（<em>工人根据图纸拆分成具体的操作流程</em>）。</p>
+<p>SparkPlan的继承关系:</p>
+<p><img src="https://raw.githubusercontent.com/huldarchen/node_image/master/2022/image_1661130985638_0.png" alt="image_1661130985638_0"></p>
+<p>SparkPlan是一棵树，树的叶子节点（<code>LeafExecNode</code>子类）的<code>doExecute</code>，<code>execute*</code>方法生成第一个RDD，非叶子节点（<code>UnaryExecNode</code>，<code>BinaryExecNode</code>）的<code>doExecute</code>，<code>execute*</code>方法表示了当前节点数据计算的算法（<code>transform</code>算子），根节点表示计算结果的输出方式（<code>action</code>算子）。</p>
+<p>简而言之，<strong>SparkPlan就是可以交给spark框架执行的一颗树</strong>。</p>
+<blockquote>
+<p>实际上通过<code>QueryExecution.createSparkPlan()</code>生成的SparkPlan还不能直接运行，还需要经过<code>QueryExecution.prepareForExecution()</code>增加一些shuffle操作和内部行格式转换才能最终交给spark执行。但转换后还是SparkPlan类。</p>
+</blockquote>
+<h3 id="1-2-SparkPlan做了什么"><a href="#1-2-SparkPlan做了什么" class="headerlink" title="1.2 SparkPlan做了什么"></a>1.2 SparkPlan做了什么</h3><p>想要了解SparkPlan到底做了什么，我们通过查看其方法就可以得到。SparkPlan类的主要方法有：</p>
+<p> a. 计算相关</p>
+<figure class="hljs highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">final</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">execute</span></span>(): <span class="hljs-type">RDD</span>[<span class="hljs-type">InternalRow</span>]; <span class="hljs-comment">// 最终委托给doExecute()方法</span><br><span class="hljs-keyword">protected</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">doExecute</span></span>(): <span class="hljs-type">RDD</span>[<span class="hljs-type">InternalRow</span>];<br><br><span class="hljs-keyword">final</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">executeBroadcast</span></span>[<span class="hljs-type">T</span>](): broadcast.<span class="hljs-type">Broadcast</span>[<span class="hljs-type">T</span>]; <span class="hljs-comment">// 最终委托给doExecuteBroadcast()方法</span><br><span class="hljs-keyword">protected</span>[sql] <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">doExecuteBroadcast</span></span>[<span class="hljs-type">T</span>](): broadcast.<span class="hljs-type">Broadcast</span>[<span class="hljs-type">T</span>];<br><br><span class="hljs-keyword">final</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">executeColumnar</span></span>(): <span class="hljs-type">RDD</span>[<span class="hljs-type">ColumnarBatch</span>]<br><span class="hljs-keyword">protected</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">doExecuteColumnar</span></span>(): <span class="hljs-type">RDD</span>[<span class="hljs-type">ColumnarBatch</span>]<br></code></pre></td></tr></table></figure>
+
+<p>b. 分区与排序</p>
+<figure class="hljs highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-comment">// 分区，输入数据与输出数据的分区情况，以此来判断是否要进行shuffle</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">outputPartitioning</span></span>: <span class="hljs-type">Partitioning</span> <br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">requiredChildDistribution</span></span>: <span class="hljs-type">Seq</span>[<span class="hljs-type">Distribution</span>]<br><br><span class="hljs-comment">// 排序相关，输入数据与输出数据的排序规则</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">outputOrdering</span></span>: <span class="hljs-type">Seq</span>[<span class="hljs-type">SortOrder</span>] <br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">requiredChildOrdering</span></span>: <span class="hljs-type">Seq</span>[<span class="hljs-type">Seq</span>[<span class="hljs-type">SortOrder</span>]]<br></code></pre></td></tr></table></figure>
+
+<p>c. 其他方法</p>
+<figure class="hljs highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-comment">// 运行计算指标信息，进行监控等</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">metrics</span></span>: <span class="hljs-type">Map</span>[<span class="hljs-type">String</span>, <span class="hljs-type">SQLMetric</span>]<br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">resetMetrics</span></span>(): <span class="hljs-type">Unit</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">longMetric</span></span>(name: <span class="hljs-type">String</span>): <span class="hljs-type">SQLMetric</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>总结</strong>：SparkPlan的作用主要有3点，</p>
+<ol>
+<li>描述当前数据怎么进行计算（算法）</li>
+<li>描述当前数据上下游分区、排序情况，来判断是否进行shuffle与排序</li>
+<li>描述当前计划的指标与元数据</li>
+</ol>
+<h2 id="2-SparkPlan如何生成"><a href="#2-SparkPlan如何生成" class="headerlink" title="2. SparkPlan如何生成"></a>2. SparkPlan如何生成</h2><h3 id="2-1-生成入口"><a href="#2-1-生成入口" class="headerlink" title="2.1 生成入口"></a>2.1 生成入口</h3><p>LogicalPlan生成SparkPlan是在<code>QueryExecution#sparkPlan</code>属性懒加载时。不同类型的操作触发时机不同，分命令类和查询类。</p>
+<p>命令类SQL&#x2F;DSL（dataset 风格）在初始化Dataset的时候，执行<code>Dataset.commandExecuted</code>属性初始化时触发sparkPlan初始化，具体流程如下图：</p>
+<p><img src="https://raw.githubusercontent.com/huldarchen/node_image/master/2022/image_1661151179146_0.png" alt="image_1661151179146_0"></p>
+<p>查询类SQL&#x2F;DSL，SparkPlan初始化比较简单，在执行action操作的时候，调用DataSet的<code>withAction</code>方法触发sparkPlan初始化。</p>
+<figure class="hljs highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-comment">// 查询类操作，DataSet.scala</span><br><span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">withAction</span></span>[<span class="hljs-type">U</span>](name: <span class="hljs-type">String</span>, qe: <span class="hljs-type">QueryExecution</span>)(action: <span class="hljs-type">SparkPlan</span> =&gt; <span class="hljs-type">U</span>) = &#123;<br>  <span class="hljs-type">SQLExecution</span>.withNewExecutionId(qe, <span class="hljs-type">Some</span>(name)) &#123;<br>    <span class="hljs-type">QueryExecution</span>.withInternalError(<span class="hljs-string">s&quot;&quot;</span><span class="hljs-string">&quot;The &quot;</span>$<span class="hljs-string">name&quot; action failed.&quot;</span><span class="hljs-string">&quot;&quot;</span>) &#123;<br>      qe.executedPlan.resetMetrics() <span class="hljs-comment">// 这里触发生成SparkPlan初始化</span><br>      action(qe.executedPlan)<br>    &#125;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-2-SparkPlan生成框架"><a href="#2-2-SparkPlan生成框架" class="headerlink" title="2.2 SparkPlan生成框架"></a>2.2 SparkPlan生成框架</h3><p>SparkPlan的生成框架核心代码是在<code>QueryPlanner.plan</code>方法。具体代码</p>
+<figure class="hljs highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">plan</span></span>(plan: <span class="hljs-type">LogicalPlan</span>): <span class="hljs-type">Iterator</span>[<span class="hljs-type">PhysicalPlan</span>] = &#123;<br>  <span class="hljs-keyword">val</span> candidates = strategies.iterator.flatMap(_ (plan)) <span class="hljs-comment">// 生成候选集</span><br>  <span class="hljs-keyword">val</span> plans = candidates.flatMap &#123; candidate =&gt;<br>    <span class="hljs-keyword">val</span> placeholders = collectPlaceholders(candidate)<br>    <span class="hljs-keyword">if</span> (placeholders.isEmpty) &#123;<br>      <span class="hljs-type">Iterator</span>(candidate)<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>      placeholders.iterator.foldLeft(<span class="hljs-type">Iterator</span>(candidate)) &#123;<br>        <span class="hljs-keyword">case</span> (candidatesWithPlaceholders, (placeholder, logicalPlan)) =&gt;<br>          <span class="hljs-keyword">val</span> childPlans = <span class="hljs-keyword">this</span>.plan(logicalPlan) <span class="hljs-comment">// 递归自上而下生成候选集</span><br>          candidatesWithPlaceholders.flatMap &#123; candidateWithPlaceholders =&gt;<br>            childPlans.map &#123; childPlan =&gt;<br>              candidateWithPlaceholders.transformUp &#123;<br>                <span class="hljs-keyword">case</span> p <span class="hljs-keyword">if</span> p.eq(placeholder) =&gt; childPlan <span class="hljs-comment">// 自下而上进行替换</span><br>              &#125;<br>            &#125;<br>          &#125;<br>      &#125;<br>    &#125;<br>  &#125;<br>  <span class="hljs-keyword">val</span> pruned = prunePlans(plans)<br>  assert(pruned.hasNext, <span class="hljs-string">s&quot;No plan for <span class="hljs-subst">$plan</span>&quot;</span>)<br>  pruned<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>以<code>select b,a from testdata2 where b&lt;2</code>SQL为例，逐步分析生成SparkPlan过程。</p>
+<p>先上结果，左边为优化后的LogicalPlan，右边为生成的SparkPlan。（添加Exec为了进行区分，实际上是没有）</p>
+<figure class="hljs highlight cal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cal">+- Project [b<span class="hljs-string">#4</span>, a<span class="hljs-string">#3</span>]                |  Project(Exec) [b<span class="hljs-string">#4</span>, a<span class="hljs-string">#3</span>]<br>   +- Filter (b<span class="hljs-string">#4</span> &lt; <span class="hljs-number">2</span>)               |   +- Filter(Exec) (b<span class="hljs-string">#4</span> &lt; <span class="hljs-number">2</span>)<br>      +- SerializeFromObject [...]   |      +- SerializeFromObject(Exec) [...]<br>         +- ExternalRDD [obj<span class="hljs-string">#2</span>]      |         +- Scan(ExternalRDDScanExec)[obj<span class="hljs-string">#2</span>]<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>先停下来思考下，如果这个执行框架是自己实现，该怎么样做呢？</p>
+</blockquote>
+<p>spark中通过两个特殊的节点<code>ReturnAnswer</code>和<code>PlanLater</code>（占位符）实现替换逻辑。上述SQL转换过程如图（分析递归调用栈）：</p>
+<p><img src="https://raw.githubusercontent.com/huldarchen/node_image/master/2022/physicalPlan-%E6%89%A7%E8%A1%8C%E6%A1%86%E6%9E%B6.png" alt="physicalPlan-执行框架"></p>
+<p>生成框架总结：<strong>自上而下生成SparkPlan，自下而上进行组装成树</strong>。</p>
+<h2 id="3-小结"><a href="#3-小结" class="headerlink" title="3. 小结"></a>3. 小结</h2><h3 id="3-1-LogicalPlan生成SparkPlan"><a href="#3-1-LogicalPlan生成SparkPlan" class="headerlink" title="3.1 LogicalPlan生成SparkPlan"></a>3.1 LogicalPlan生成SparkPlan</h3><p>LogicalPlan生成SparkPlan本质上是由一棵树转换成另一颗树，自上而下通过strategies策略将当前LogicalPlan节点转换成SparkPlan，然后自下而上替换Planeholder（占位符）组装SparkPlan树。</p>
+<p>LogicalPlan生成SparkPlan目的是补充计算要素，最终能够在框架中进行执行。</p>
+<h3 id="3-2-小知识点"><a href="#3-2-小知识点" class="headerlink" title="3.2 小知识点"></a>3.2 小知识点</h3><ol>
+<li>scala的flatMap不是立即触发function逻辑，而是在调用其他方法（如：next，hasNext等）触发具体function逻辑执行</li>
+<li>strategies包含的策略中<code>SpecialLimits</code>策略唯一处理<code>ReturnAnswer</code>节点。</li>
+<li><code>ReturnAnswer</code>节点是特殊的SparkPlan，表示根节点。</li>
+</ol>
+
+    </main>
+    <footer class="post-footer">
+      
+    </footer>
+  </article>
+  
+  
+  <nav class="page-nav">
+    <div class="page-nav-next page-nav-item">
+      
+      <a href="/2022/07/29/spark%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/%E9%9A%8F%E8%AE%B0/" rel="next" title=""><i class="fas fa-angle-left"></i><span class="nav-title"></span></a>
+      
+    </div>
+    <div class="page-nav-prev page-nav-item">
+      
+    </div>
+  </nav>
+  
+  
+</div>
+
+          </div>
+          
+          
+          
+<aside class="sidebar" id="sidebar" style="background: url(/images/background.png);">
+  
+  <div class="search">
+    <div class="form-group">
+      <i class="fas fa-search"></i><input type="search" id="search-input" name="q" results="0" placeholder="Search" class="form-control"/>
+    </div>
+  </div>
+  <div class="search-result-box" id="search-result"></div>
+  
+  
+<div class="info sidebar-item" id="info">
+  
+  <img class="author-avatar" src="/images/avatar.png" alt="huldar chen">
+  
+  <h1 class="author-name">huldar chen</h1>
+  <h2 class="author-description"></h2>
+  <div class="site-count">
+    
+    
+    
+    
+    <div class="archives-count count-block">
+      <div class="site-count-title">Archives</div>
+      <div><a href="/archives/">19</a></div>
+    </div>
+    
+    
+  </div>
+  
+  <div class="rss">
+    <a class="rss-link button sidebar-item" href="/atom.xml"><i class="fas fa-rss"></i>RSS</a>
+  </div>
+  
+</div>
+
+
+  <div class="sidebar-sticky">
+    
+    
+    
+    
+    
+    <hr>
+    <div class="post-toc sidebar-item" id="toc-div">
+      <div><i class="fas fa-list-ol"></i>Table of Contents</div>
+      <div class="post-toc-content"><ol class="list-group toc"><li class="toc-item toc-level-1"><a class="list-group-item toc-link" href="#1-SparkPlan%E7%94%9F%E6%88%90%E6%A1%86%E6%9E%B6"><span class="toc-text">1-SparkPlan生成框架</span></a><ol class="list-group toc-child"><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#0-%E5%87%86%E5%A4%87%E7%9F%A5%E8%AF%86"><span class="toc-text">0. 准备知识</span></a></li><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#1-SparkPlan%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">1. SparkPlan是什么</span></a><ol class="list-group toc-child"><li class="toc-item toc-level-3"><a class="list-group-item toc-link" href="#1-1-SparkPlan%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">1.1 SparkPlan是什么</span></a></li><li class="toc-item toc-level-3"><a class="list-group-item toc-link" href="#1-2-SparkPlan%E5%81%9A%E4%BA%86%E4%BB%80%E4%B9%88"><span class="toc-text">1.2 SparkPlan做了什么</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#2-SparkPlan%E5%A6%82%E4%BD%95%E7%94%9F%E6%88%90"><span class="toc-text">2. SparkPlan如何生成</span></a><ol class="list-group toc-child"><li class="toc-item toc-level-3"><a class="list-group-item toc-link" href="#2-1-%E7%94%9F%E6%88%90%E5%85%A5%E5%8F%A3"><span class="toc-text">2.1 生成入口</span></a></li><li class="toc-item toc-level-3"><a class="list-group-item toc-link" href="#2-2-SparkPlan%E7%94%9F%E6%88%90%E6%A1%86%E6%9E%B6"><span class="toc-text">2.2 SparkPlan生成框架</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#3-%E5%B0%8F%E7%BB%93"><span class="toc-text">3. 小结</span></a><ol class="list-group toc-child"><li class="toc-item toc-level-3"><a class="list-group-item toc-link" href="#3-1-LogicalPlan%E7%94%9F%E6%88%90SparkPlan"><span class="toc-text">3.1 LogicalPlan生成SparkPlan</span></a></li><li class="toc-item toc-level-3"><a class="list-group-item toc-link" href="#3-2-%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="toc-text">3.2 小知识点</span></a></li></ol></li></ol></li></ol></div>
+    </div>
+    
+    
+    
+    <hr>
+    <div class="social-link sidebar-item">
+      <div><i class="far fa-address-card"></i>Social Links</p></div>
+      <ul>
+        
+        <li><i class="fas fa-envelope"></i><a href="mailto:youremail@youremailhost" target="_blank">E-Mail</a></li>
+        
+        <li><i class="fab fa-github"></i><a href="https://github.com/" target="_blank">GitHub</a></li>
+        
+        <li><i class="fab fa-weibo"></i><a href="https://weibo.com/" target="_blank">Weibo</a></li>
+        
+      </ul>
+    </div>
+    
+    
+    <hr>
+    <div class="blogroll sidebar-item">
+      <div><i class="fas fa-link"></i>Blogroll</div>
+      <ul>
+        
+        <li><i class="fas fa-link"></i><a href="https://github.com/" target="_blank">GitHub</a></li>
+        
+        <li><i class="fas fa-link"></i><a href="https://developer.mozilla.org/" target="_blank">MDN</a></li>
+        
+        <li><i class="fas fa-link"></i><a href="https://mozilla.github.io/nunjucks/" target="_blank">Nunjucks</a></li>
+        
+      </ul>
+    </div>
+    
+  </div>
+</aside>
+
+
+          
+        </div>
+      </div>
+    </main>
+    
+<footer id="footer" class="footer" style="background: #33363b;">
+  <div class="container">
+    <div class="back-to-top">
+      <button id="back-to-top"><i class="fas fa-angle-double-up" aria-label="Back to Top"></i></button>
+    </div>
+    <div class="footer-container">
+      <div class="footer-left">
+        <div class="copyright">
+          <span class="author">huldar chen</span><span class="year"><i class="far fa-copyright"></i>2022</span>
+        </div>
+        
+        <div class="busuanzi">
+          <span id="busuanzi_container_site_pv"><i class="fas fa-eye" aria-label="Site Visit Count" aria-hidden="false"></i><span id="busuanzi_value_site_pv"></span></span><span id="busuanzi_container_site_uv"><i class="fas fa-user" aria-label="Site User Count" aria-hidden="false"></i><span id="busuanzi_value_site_uv"></span></span><span id="busuanzi_container_page_pv"><i class="far fa-file-alt"></i><span id="busuanzi_value_page_pv" aria-label="Page Click Count" aria-hidden="false"></span></span>
+        </div>
+        
+      </div>
+      <div class="footer-right">
+        <div class="custom-info">
+          
+          托管于<i class="fab fa-github-alt"></i><a href="https://pages.github.com/" target="_blank">GitHub Pages</a>
+          
+        </div>
+        <div class="powered-by">
+          Proudly Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> | Theme is <a href="https://github.com/AlynxZhou/hexo-theme-aria/" target="_blank">ARIA</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  </body>
+</html>

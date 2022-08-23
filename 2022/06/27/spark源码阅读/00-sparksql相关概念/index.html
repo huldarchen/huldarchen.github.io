@@ -157,7 +157,7 @@
     </script>
     
     <script defer type="text/javascript" src="/js/custom.js"></script>
-    <title>Hello World | huldarchen's 博客</title>
+    <title> | huldarchen's 博客</title>
   <meta name="generator" content="Hexo 6.1.0"></head>
   <body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN"  data-spy="scroll" data-target=".list-group">
     
@@ -197,7 +197,7 @@
   
   <article class="article post card" itemscope itemtype="http://schema.org/Article">
     <div class="post-block">
-      <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/06/hello-world/">
+      <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/27/spark%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/00-sparksql%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/">
       <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
        <meta itemprop="name" content="huldar chen">
        <meta itemprop="description" content="">
@@ -208,11 +208,11 @@
       </span>
     </div>
     <header class="post-header">
-      <h1 class="post-title" itemprop="name headline">Hello World</h1>
+      <h1 class="post-title" itemprop="name headline"></h1>
       <div class="post-meta">
         
         <span class="post-date">
-          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2022-04-06T16:04:35+08:00">2022-04-06 16:04:35</time></span>
+          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2022-06-27T15:27:39+08:00">2022-06-27 15:27:39</time></span>
         </span>
         
         
@@ -220,20 +220,17 @@
       </div>
     </header>
     <main class="post-main" itemprop="articleBody">
-      <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="hljs highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="hljs highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="hljs highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="hljs highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
+      <h2 id="TreeNode体系"><a href="#TreeNode体系" class="headerlink" title="TreeNode体系"></a>TreeNode体系</h2><p>TreeNode有两大体系，查询计划「QueryPlan」（逻辑执行计划和物理执行计划）和表达式。执行计划主要是表达SQL中from、join等SQL关键词的语法，表达式是除了表示的是剩余所有。</p>
+<h3 id="QueryPlan"><a href="#QueryPlan" class="headerlink" title="QueryPlan"></a>QueryPlan</h3><p>![image-20220628110320998](&#x2F;Users&#x2F;huldarchen&#x2F;Library&#x2F;Application Support&#x2F;typora-user-images&#x2F;image-20220628110320998.png)</p>
+<h4 id="1-logical-plan"><a href="#1-logical-plan" class="headerlink" title="1. logical plan"></a>1. logical plan</h4><p>SQL语法解析后的AST转换而成，Unresolved和Resolved两条线，根据子节点数量分为叶子节点、一元节点、二元节点、多元节点（直接继承LogicalPlan，如Union）。根据SQL类型分为命令式Command和query。</p>
+<ul>
+<li>叶子节点主要是表示表信息（relation）</li>
+<li>一元节点包含aggregate、distinct、sort、window、view、Filter、limit、subquery、hint、with、expand、project等</li>
+<li>二元节点包含join、CoGroup、Except、Intersect等</li>
+<li>多元节点包含union等</li>
+</ul>
+<h4 id="2-spark-plan"><a href="#2-spark-plan" class="headerlink" title="2. spark plan"></a>2. spark plan</h4><p>spark plan表示物理执行计划。通过Resolved logical plan生成。体系构成和logical plan基本一致，带有Exec后缀。</p>
+<h3 id="Expression"><a href="#Expression" class="headerlink" title="Expression"></a>Expression</h3>
     </main>
     <footer class="post-footer">
       
@@ -244,10 +241,12 @@
   <nav class="page-nav">
     <div class="page-nav-next page-nav-item">
       
+      <a href="/2022/06/17/spark%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/07-%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82BHJ/" rel="next" title=""><i class="fas fa-angle-left"></i><span class="nav-title"></span></a>
+      
     </div>
     <div class="page-nav-prev page-nav-item">
       
-      <a href="/2022/04/11/spark-antlr4%E8%A7%A3%E6%9E%90sql%E7%94%9F%E6%88%90%E6%A0%91/" rel="prev" title="spark-antlr4解析sql生成树"><span class="nav-title">spark-antlr4解析sql生成树</span><i class="fas fa-angle-right"></i></a>
+      <a href="/2022/07/29/spark%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/%E9%9A%8F%E8%AE%B0/" rel="prev" title=""><span class="nav-title"></span><i class="fas fa-angle-right"></i></a>
       
     </div>
   </nav>
@@ -304,7 +303,7 @@
     <hr>
     <div class="post-toc sidebar-item" id="toc-div">
       <div><i class="fas fa-list-ol"></i>Table of Contents</div>
-      <div class="post-toc-content"><ol class="list-group toc"><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#Quick-Start"><span class="toc-text">Quick Start</span></a><ol class="list-group toc-child"><li class="toc-item toc-level-3"><a class="list-group-item toc-link" href="#Create-a-new-post"><span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="list-group-item toc-link" href="#Run-server"><span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="list-group-item toc-link" href="#Generate-static-files"><span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="list-group-item toc-link" href="#Deploy-to-remote-sites"><span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+      <div class="post-toc-content"><ol class="list-group toc"><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#TreeNode%E4%BD%93%E7%B3%BB"><span class="toc-text">TreeNode体系</span></a><ol class="list-group toc-child"><li class="toc-item toc-level-3"><a class="list-group-item toc-link" href="#QueryPlan"><span class="toc-text">QueryPlan</span></a><ol class="list-group toc-child"><li class="toc-item toc-level-4"><a class="list-group-item toc-link" href="#1-logical-plan"><span class="toc-text">1. logical plan</span></a></li><li class="toc-item toc-level-4"><a class="list-group-item toc-link" href="#2-spark-plan"><span class="toc-text">2. spark plan</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="list-group-item toc-link" href="#Expression"><span class="toc-text">Expression</span></a></li></ol></li></ol></div>
     </div>
     
     

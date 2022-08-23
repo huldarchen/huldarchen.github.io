@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#33363b">
+    <meta name="msapplication-TileColor" content="#33363b">
+    
+    
+    
+    
+    <meta name="keywords" content="Life, ARIA, Hexo">
+    
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
+    
+    
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicons/android-chrome-192x192.png">
+    
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+    
+    
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+    
+    
+    <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#33363b">
+    
+    
+    <link rel="manifest" href="/favicons/site.webmanifest">
+    
+    
+    <meta name="msapplication-config" content="/favicons/browserconfig.xml">
+    
+    
+    <link rel="alternate" href="/atom.xml" title="huldarchen's 博客" type="application/atom+xml" />
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="/favicons/favicon.ico">
+    
+    
+    <link rel="stylesheet" type="text/css" href="/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+    
+    <link rel="stylesheet" type="text/css" href="/css/sidebar.css">
+    
+    
+<link rel="stylesheet" type="text/css" href="/css/page.css">
+<link rel="stylesheet" type="text/css" href="/css/post.css">
+
+    <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    <link rel="stylesheet" type="text/css" href="/css/atom-one-dark.css">
+    <link rel="stylesheet" type="text/css" href="/css/lightgallery.min.css">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script defer type="text/javascript" src="/js/util.js"></script>
+    <script defer type="text/javascript" src="/js/clipboard.min.js"></script>
+    <script defer type="text/javascript" src="/js/scrollspy.js"></script>
+    <script defer type="text/javascript" src="/js/fontawesome-all.min.js"></script>
+    <script defer type="text/javascript" src="/js/lightgallery.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-fullscreen.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-hash.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-pager.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-thumbnail.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-zoom.min.js"></script>
+    
+    <script defer src="/js/busuanzi.pure.mini.js"></script>
+    
+    
+    <script defer type="text/javascript" src="/js/search.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+      var searchPath = "search.xml";
+      if (searchPath.length === 0) {
+        searchPath = "search.xml";
+      }
+      var path = "/" + searchPath;
+      searchFunc(path, "search-input", "search-result");
+    });
+    </script>
+    
+    
+    <script defer type="text/javascript" src="/js/index.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+      var cb = null;
+      var els = $(".post figure.highlight");
+      if (els.length) {
+        // Enabled Hexo highlight line number.
+        $(els).each(function (i, e) {
+          // $(e).before("<button class=\"copy button\">Copy</button>");
+          $(e).before([
+            "<div class=\"code-titlebar\">",
+              "<div class=\"titlebar-left\">",
+                "<button class=\"copy\" aria-label=\"Copy\"><i class=\"far fa-copy\"></i></button>",
+              "</div>",
+              "<div class=\"titlebar-center\">",
+                "code",
+              "</div>",
+              "<div class=\"titlebar-right\">",
+                "<button class=\"button-dot dot-minimize\" aria-label=\"Decoration\"></button>",
+                "<button class=\"button-dot dot-maximize\" aria-label=\"Decoration\"></button>",
+                "<button class=\"button-dot dot-close\" aria-label=\"Decoration\"></button>",
+              "</div>",
+            "</div>"
+          ].join(""));
+        });
+        cb = new ClipboardJS("button.copy", {
+          "target": function (trigger) {
+              // Get target element by DOM API.
+              return trigger.parentNode.parentNode.nextElementSibling.firstChild.firstChild.firstChild.lastChild.firstChild.firstChild;
+          }
+        });
+      } else {
+        // Disabled Hexo highlight line number.
+        els = $(".post pre code");
+        $(els).each(function (i, e) {
+          // Add button before pre, not code.
+          // $(e).parent().before("<button class=\"copy button\">Copy</button>");
+          $(e).before([
+            "<div class=\"code-titlebar\">",
+              "<div class=\"titlebar-left\">",
+                "<button class=\"copy\" aria-label=\"Copy\"><i class=\"far fa-copy\"></i></button>",
+              "</div>",
+              "<div class=\"titlebar-center\">",
+                "code",
+              "</div>",
+              "<div class=\"titlebar-right\">",
+                "<button class=\"button-dot dot-minimize\" aria-label=\"Decoration\"></button>",
+                "<button class=\"button-dot dot-maximize\" aria-label=\"Decoration\"></button>",
+                "<button class=\"button-dot dot-close\" aria-label=\"Decoration\"></button>",
+              "</div>",
+            "</div>"
+          ].join(""));
+        });
+        cb = new ClipboardJS("button.copy", {
+          "target": function (trigger) {
+              // Get target element by DOM API.
+              return trigger.parentNode.parentNode.nextElementSibling;
+          }
+        });
+      }
+      cb.on("success", function (e) {
+        e.clearSelection();
+        var trigger = e.trigger;
+        // Change button text as a user tip.
+        trigger.innerHTML = "<i class=\"far fa-check-square\"></i>";
+        $(trigger).addClass("copied");
+        // Change button text back;
+        setTimeout(function () {
+          trigger.innerHTML = "<i class=\"far fa-copy\"></i>";
+          $(trigger).removeClass("copied");
+        }, 1500);
+      });
+    });
+    </script>
+    
+    <script defer type="text/javascript" src="/js/custom.js"></script>
+    <title> | huldarchen's 博客</title>
+  <meta name="generator" content="Hexo 6.1.0"></head>
+  <body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN"  data-spy="scroll" data-target=".list-group">
+    
+<header id="header" class="header" style="background: #33363b;">
+  <div class="container">
+    <div class="header-container">
+      <div class="header-title">
+        <h1 class="title"><a href="/">huldarchen's 博客</a></h1>
+        <h2 class="subtitle"></h2>
+      </div>
+      
+      <div class="logo">
+        <img src="/images/logo.png" alt="logo">
+      </div>
+      
+    </div>
+    <nav id="nav" class="nav">
+      <a id="nav-toggle" class="nav-toggle" aria-hidden="true"><i class="fas fa-bars" aria-label="Toggle Navbar"></i></a>
+      <ul id="menu" role="menubar" aria-hidden="false">
+        
+        <li role="menuitem"><a href="/"><i class="fas fa-home"></i><span class="menu-text">Home</span></a></li>
+        
+        <li role="menuitem"><a href="/archives/"><i class="fas fa-archive"></i><span class="menu-text">Archives</span></a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+
+    <main id="main" class="main">
+      <div class="container">
+        <div class="main-container">
+          <div class="content">
+            
+<div id="post" class="page">
+  
+  <article class="article post card" itemscope itemtype="http://schema.org/Article">
+    <div class="post-block">
+      <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/17/spark%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/07-%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82BHJ/">
+      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+       <meta itemprop="name" content="huldar chen">
+       <meta itemprop="description" content="">
+       <meta itemprop="image" content="/images/avatar.png">
+      </span>
+      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+       <meta itemprop="name" content="huldarchen's 博客">
+      </span>
+    </div>
+    <header class="post-header">
+      <h1 class="post-title" itemprop="name headline"></h1>
+      <div class="post-meta">
+        
+        <span class="post-date">
+          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2022-06-17T10:10:17+08:00">2022-06-17 10:10:17</time></span>
+        </span>
+        
+        
+        
+      </div>
+    </header>
+    <main class="post-main" itemprop="articleBody">
+      <h2 id="JOIN方式有哪些？"><a href="#JOIN方式有哪些？" class="headerlink" title="JOIN方式有哪些？"></a>JOIN方式有哪些？</h2><p>从spark的JoinSelection中可以看到有5中join：</p>
+<ul>
+<li><p>Broadcast hash join（BHJ）</p>
+</li>
+<li><p>Shuffle hash join（SHJ）</p>
+</li>
+<li><p>Shuffle sort merge join（SMJ）</p>
+</li>
+<li><p>Broadcast nested loop join（BNLJ）</p>
+<figure class="hljs highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-comment">// 因为我们下面测试数据都很小，所以我们先把 BroadcastJoin 关闭</span><br><br>scala&gt; spark.conf.set(<span class="hljs-string">&quot;spark.sql.autoBroadcastJoinThreshold&quot;</span>, <span class="hljs-number">1</span>)<br><br><br>scala&gt; <span class="hljs-keyword">val</span> iteblogDF1 = <span class="hljs-type">Seq</span>(<br><br>     |   (<span class="hljs-number">0</span>, <span class="hljs-string">&quot;111&quot;</span>),<br><br>     |   (<span class="hljs-number">1</span>, <span class="hljs-string">&quot;222&quot;</span>),<br><br>     |   (<span class="hljs-number">2</span>, <span class="hljs-string">&quot;333&quot;</span>)<br><br>     | ).toDF(<span class="hljs-string">&quot;id&quot;</span>, <span class="hljs-string">&quot;info&quot;</span>)<br><br>iteblogDF1: org.apache.spark.sql.<span class="hljs-type">DataFrame</span> = [id: int, info: string]<br><br><br>scala&gt; <span class="hljs-keyword">val</span> iteblogDF2 = <span class="hljs-type">Seq</span>(<br><br>     |   (<span class="hljs-number">0</span>, <span class="hljs-string">&quot;https://www.iteblog.com&quot;</span>),<br><br>     |   (<span class="hljs-number">1</span>, <span class="hljs-string">&quot;iteblog_hadoop&quot;</span>),<br><br>     |   (<span class="hljs-number">2</span>, <span class="hljs-string">&quot;iteblog&quot;</span>)<br><br>     | ).toDF(<span class="hljs-string">&quot;id&quot;</span>, <span class="hljs-string">&quot;info&quot;</span>)<br><br>iteblogDF2: org.apache.spark.sql.<span class="hljs-type">DataFrame</span> = [id: int, info: string]<br><br><br>scala&gt; <span class="hljs-keyword">val</span> r = iteblogDF1.join(iteblogDF2, <span class="hljs-type">Nil</span>, <span class="hljs-string">&quot;leftouter&quot;</span>)<br><br>r: org.apache.spark.sql.<span class="hljs-type">DataFrame</span> = [id: int, info: string ... <span class="hljs-number">2</span> more fields]<br><br><br>scala&gt; r.explain<br><br>== <span class="hljs-type">Physical</span> <span class="hljs-type">Plan</span> ==<br><br><span class="hljs-type">BroadcastNestedLoopJoin</span> <span class="hljs-type">BuildRight</span>, <span class="hljs-type">LeftOuter</span><br><br>:- <span class="hljs-type">LocalTableScan</span> [id#<span class="hljs-number">157</span>, info#<span class="hljs-number">158</span>]<br><br>+- <span class="hljs-type">BroadcastExchange</span> <span class="hljs-type">IdentityBroadcastMode</span>, [id=#<span class="hljs-number">516</span>]<br><br>   +- <span class="hljs-type">LocalTableScan</span> [id#<span class="hljs-number">168</span>, info#<span class="hljs-number">169</span>]<br><br><br>scala&gt; r.show(<span class="hljs-literal">false</span>)<br><br>+---+----+---+-----------------------+<br><br>|id |info|id |info                   |<br><br>+---+----+---+-----------------------+<br><br>|<span class="hljs-number">0</span>  |<span class="hljs-number">111</span> |<span class="hljs-number">0</span>  |https:<span class="hljs-comment">//www.iteblog.com|</span><br><br>|<span class="hljs-number">0</span>  |<span class="hljs-number">111</span> |<span class="hljs-number">1</span>  |iteblog_hadoop         |<br><br>|<span class="hljs-number">0</span>  |<span class="hljs-number">111</span> |<span class="hljs-number">2</span>  |iteblog                |<br><br>|<span class="hljs-number">1</span>  |<span class="hljs-number">222</span> |<span class="hljs-number">0</span>  |https:<span class="hljs-comment">//www.iteblog.com|</span><br><br>|<span class="hljs-number">1</span>  |<span class="hljs-number">222</span> |<span class="hljs-number">1</span>  |iteblog_hadoop         |<br><br>|<span class="hljs-number">1</span>  |<span class="hljs-number">222</span> |<span class="hljs-number">2</span>  |iteblog                |<br><br>|<span class="hljs-number">2</span>  |<span class="hljs-number">333</span> |<span class="hljs-number">0</span>  |https:<span class="hljs-comment">//www.iteblog.com|</span><br><br>|<span class="hljs-number">2</span>  |<span class="hljs-number">333</span> |<span class="hljs-number">1</span>  |iteblog_hadoop         |<br><br>|<span class="hljs-number">2</span>  |<span class="hljs-number">333</span> |<span class="hljs-number">2</span>  |iteblog                |<br><br>+---+----+---+-----------------------+<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>Shuffle-and-replicate nested loop join（笛卡尔积join）</p>
+</li>
+</ul>
+<h2 id="1-什么是BHJ？"><a href="#1-什么是BHJ？" class="headerlink" title="1. 什么是BHJ？"></a>1. 什么是BHJ？</h2><p>Broadcast hash join（BHJ）又称map-side-only join，join发生在map端，也就要求两个表有一个小表，数据小到能够放在driver端和executor端。</p>
+<p>sparkBHJ的实现是，将小表数据收集到Dirver端，然后通过sparkContext.broadcast方法将小表数据广播到executor端内存中，避免在join时候executor端通过网络拉取小表数据，提高join效率【大部分情况】。具体执行流程：</p>
+<p><img src="/Users/huldarchen/Documents/blog/huldarchen.github.io/source/_posts/modb_20211108_fec0e73e-4028-11ec-bb72-38f9d3cd240d.png" alt="img"></p>
+<p>那么spark什么时候确定使用BHJ？确定后输出的是什么？满足什么样的条件才能使用BHJ呢？</p>
+<h2 id="2-spark的BHJ判断逻辑"><a href="#2-spark的BHJ判断逻辑" class="headerlink" title="2. spark的BHJ判断逻辑"></a>2. spark的BHJ判断逻辑</h2><p>sparkSQL执行过程<br><img src="/Users/huldarchen/Documents/blog/huldarchen.github.io/source/_posts/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pjMTk5MjEyMTU=,size_16,color_FFFFFF,t_70.png" alt="img"></p>
+<ul>
+<li><p>什么时候确定？</p>
+<p>确定join策略发生在Optimizated Logical Plan转化Physical Plans过程中，是JoinSelection策略进行确定。</p>
+</li>
+<li><p>确定的输出结果？</p>
+<p>确定后输出 BuildSide，包含两个类型BuildRight和BuildLeft。代表要广播那边的表。</p>
+</li>
+<li><p>满足什么条件？</p>
+<ol>
+<li><p>有hint<br>broadcastjoin的hint包含：<code>BROADCAST</code>、<code>BROADCASTJOIN</code>、<code>MAPJOIN</code>。用法示例：</p>
+<figure class="hljs highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">/*+ BROADCAST(t1) */</span><br><span class="hljs-comment">/*+ BROADCAST(tmp1, tmp2) */</span> <span class="hljs-comment">-- 多个表hint使用，分割</span><br><span class="hljs-comment">/*+ BROADCASTJOIN (t1) */</span><br><span class="hljs-comment">/*+ MAPJOIN(t2) */</span><br></code></pre></td></tr></table></figure>
+
+<p>使用hint指定后，先会判断左表和右表那个有hint，然后会根据join类型判断是否支持广播，支持的join类型：</p>
+<table>
+<thead>
+<tr>
+<th>表位置</th>
+<th>支持的join</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>右表</td>
+<td>inner join<br />right outer join</td>
+</tr>
+<tr>
+<td>左表</td>
+<td>inner join<br />left outer join<br />left semi join<br />left anti join<br />ExistenceJoin</td>
+</tr>
+</tbody></table>
+<p>如果 左表 和 右表都有hint，且join 类型为 inner join，会计算左右表的数据量，右表&lt;&#x3D;左表：广播右表，否则广播左表。</p>
+</li>
+<li><p>无hint</p>
+<ol>
+<li>判断数据量（数据加载到内存中的大小，要比实际表文件大小要大）是否小于广播的阈值<br>广播的阈值在3.2以后可以通过2个参数进行控制：<ul>
+<li>spark.sql.adaptive.autoBroadcastJoinThreshold 开启AQE时生效，单位byte</li>
+<li>spark.sql.autoBroadcastJoinThreshold 默认是10M，也作为兜底。</li>
+</ul>
+</li>
+<li>不存在<code>no_broadcast_hash</code>的hint</li>
+<li>join type是否支持 同上。</li>
+</ol>
+<p>其中数据量的判断比较重要，下节单独说明。</p>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="3-数据量指标解析"><a href="#3-数据量指标解析" class="headerlink" title="3. 数据量指标解析"></a>3. 数据量指标解析</h2><ol>
+<li><p>数据量判断代码体系<br>调用LogicalPlanStats#stats方法获取统计信息Statistics。Statistics有两种生成方式：</p>
+<ul>
+<li>开启CBO    BasicStatsPlanVisitor</li>
+<li>不开启CBO  SizeInBytesOnlyStatsPlanVisitor</li>
+</ul>
+<p>通过访问者的方式对不同的logical plan获取</p>
+<p><img src="/Users/huldarchen/Documents/blog/huldarchen.github.io/source/_posts/image-20220617151429182.png" alt="image-20220617151429182">默认实现default(p)</p>
+<figure class="hljs highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-comment">// BasicStatsPlanVisitor#default </span><br><span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">default</span></span>(p: <span class="hljs-type">LogicalPlan</span>): <span class="hljs-type">Statistics</span> = p <span class="hljs-keyword">match</span> &#123;<br>    <span class="hljs-keyword">case</span> p: <span class="hljs-type">LeafNode</span> =&gt; p.computeStats()<br>    <span class="hljs-keyword">case</span> _: <span class="hljs-type">LogicalPlan</span> =&gt;<br>      <span class="hljs-keyword">val</span> stats = p.children.map(_.stats)<br>      <span class="hljs-keyword">val</span> rowCount = <span class="hljs-keyword">if</span> (stats.exists(_.rowCount.isEmpty)) &#123;<br>        <span class="hljs-type">None</span><br>      &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-type">Some</span>(stats.map(_.rowCount.get).filter(_ &gt; <span class="hljs-number">0</span>L).product)<br>      &#125;<br>      <span class="hljs-type">Statistics</span>(sizeInBytes = stats.map(_.sizeInBytes).filter(_ &gt; <span class="hljs-number">0</span>L).product, rowCount = rowCount)<br>  &#125;<br><span class="hljs-comment">// SizeInBytesOnlyStatsPlanVisitor#default</span><br>  <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">default</span></span>(p: <span class="hljs-type">LogicalPlan</span>): <span class="hljs-type">Statistics</span> = p <span class="hljs-keyword">match</span> &#123;<br>    <span class="hljs-keyword">case</span> p: <span class="hljs-type">LeafNode</span> =&gt; p.computeStats()<br>    <span class="hljs-keyword">case</span> _: <span class="hljs-type">LogicalPlan</span> =&gt;<br>      <span class="hljs-type">Statistics</span>(sizeInBytes = p.children.map(_.stats.sizeInBytes).filter(_ &gt; <span class="hljs-number">0</span>L).product)<br>  &#125;<br></code></pre></td></tr></table></figure>
+
+<p>从底表逐层向上调用，最底层调用LeafNode的computeStats方法获取，一元节点</p>
+</li>
+<li><p>常用</p>
+</li>
+</ol>
+
+    </main>
+    <footer class="post-footer">
+      
+    </footer>
+  </article>
+  
+  
+  <nav class="page-nav">
+    <div class="page-nav-next page-nav-item">
+      
+      <a href="/2022/06/08/spark%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/06-RuleExecutor%E8%AF%A6%E8%A7%A3/" rel="next" title=""><i class="fas fa-angle-left"></i><span class="nav-title"></span></a>
+      
+    </div>
+    <div class="page-nav-prev page-nav-item">
+      
+      <a href="/2022/06/27/spark%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/00-sparksql%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/" rel="prev" title=""><span class="nav-title"></span><i class="fas fa-angle-right"></i></a>
+      
+    </div>
+  </nav>
+  
+  
+</div>
+
+          </div>
+          
+          
+          
+<aside class="sidebar" id="sidebar" style="background: url(/images/background.png);">
+  
+  <div class="search">
+    <div class="form-group">
+      <i class="fas fa-search"></i><input type="search" id="search-input" name="q" results="0" placeholder="Search" class="form-control"/>
+    </div>
+  </div>
+  <div class="search-result-box" id="search-result"></div>
+  
+  
+<div class="info sidebar-item" id="info">
+  
+  <img class="author-avatar" src="/images/avatar.png" alt="huldar chen">
+  
+  <h1 class="author-name">huldar chen</h1>
+  <h2 class="author-description"></h2>
+  <div class="site-count">
+    
+    
+    
+    
+    <div class="archives-count count-block">
+      <div class="site-count-title">Archives</div>
+      <div><a href="/archives/">19</a></div>
+    </div>
+    
+    
+  </div>
+  
+  <div class="rss">
+    <a class="rss-link button sidebar-item" href="/atom.xml"><i class="fas fa-rss"></i>RSS</a>
+  </div>
+  
+</div>
+
+
+  <div class="sidebar-sticky">
+    
+    
+    
+    
+    
+    <hr>
+    <div class="post-toc sidebar-item" id="toc-div">
+      <div><i class="fas fa-list-ol"></i>Table of Contents</div>
+      <div class="post-toc-content"><ol class="list-group toc"><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#JOIN%E6%96%B9%E5%BC%8F%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-text">JOIN方式有哪些？</span></a></li><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AFBHJ%EF%BC%9F"><span class="toc-text">1. 什么是BHJ？</span></a></li><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#2-spark%E7%9A%84BHJ%E5%88%A4%E6%96%AD%E9%80%BB%E8%BE%91"><span class="toc-text">2. spark的BHJ判断逻辑</span></a></li><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#3-%E6%95%B0%E6%8D%AE%E9%87%8F%E6%8C%87%E6%A0%87%E8%A7%A3%E6%9E%90"><span class="toc-text">3. 数据量指标解析</span></a></li></ol></div>
+    </div>
+    
+    
+    
+    <hr>
+    <div class="social-link sidebar-item">
+      <div><i class="far fa-address-card"></i>Social Links</p></div>
+      <ul>
+        
+        <li><i class="fas fa-envelope"></i><a href="mailto:youremail@youremailhost" target="_blank">E-Mail</a></li>
+        
+        <li><i class="fab fa-github"></i><a href="https://github.com/" target="_blank">GitHub</a></li>
+        
+        <li><i class="fab fa-weibo"></i><a href="https://weibo.com/" target="_blank">Weibo</a></li>
+        
+      </ul>
+    </div>
+    
+    
+    <hr>
+    <div class="blogroll sidebar-item">
+      <div><i class="fas fa-link"></i>Blogroll</div>
+      <ul>
+        
+        <li><i class="fas fa-link"></i><a href="https://github.com/" target="_blank">GitHub</a></li>
+        
+        <li><i class="fas fa-link"></i><a href="https://developer.mozilla.org/" target="_blank">MDN</a></li>
+        
+        <li><i class="fas fa-link"></i><a href="https://mozilla.github.io/nunjucks/" target="_blank">Nunjucks</a></li>
+        
+      </ul>
+    </div>
+    
+  </div>
+</aside>
+
+
+          
+        </div>
+      </div>
+    </main>
+    
+<footer id="footer" class="footer" style="background: #33363b;">
+  <div class="container">
+    <div class="back-to-top">
+      <button id="back-to-top"><i class="fas fa-angle-double-up" aria-label="Back to Top"></i></button>
+    </div>
+    <div class="footer-container">
+      <div class="footer-left">
+        <div class="copyright">
+          <span class="author">huldar chen</span><span class="year"><i class="far fa-copyright"></i>2022</span>
+        </div>
+        
+        <div class="busuanzi">
+          <span id="busuanzi_container_site_pv"><i class="fas fa-eye" aria-label="Site Visit Count" aria-hidden="false"></i><span id="busuanzi_value_site_pv"></span></span><span id="busuanzi_container_site_uv"><i class="fas fa-user" aria-label="Site User Count" aria-hidden="false"></i><span id="busuanzi_value_site_uv"></span></span><span id="busuanzi_container_page_pv"><i class="far fa-file-alt"></i><span id="busuanzi_value_page_pv" aria-label="Page Click Count" aria-hidden="false"></span></span>
+        </div>
+        
+      </div>
+      <div class="footer-right">
+        <div class="custom-info">
+          
+          托管于<i class="fab fa-github-alt"></i><a href="https://pages.github.com/" target="_blank">GitHub Pages</a>
+          
+        </div>
+        <div class="powered-by">
+          Proudly Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> | Theme is <a href="https://github.com/AlynxZhou/hexo-theme-aria/" target="_blank">ARIA</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  </body>
+</html>

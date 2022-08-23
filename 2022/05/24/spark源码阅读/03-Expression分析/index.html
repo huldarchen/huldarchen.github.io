@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#33363b">
+    <meta name="msapplication-TileColor" content="#33363b">
+    
+    
+    
+    
+    <meta name="keywords" content="Life, ARIA, Hexo">
+    
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
+    
+    
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicons/android-chrome-192x192.png">
+    
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+    
+    
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+    
+    
+    <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#33363b">
+    
+    
+    <link rel="manifest" href="/favicons/site.webmanifest">
+    
+    
+    <meta name="msapplication-config" content="/favicons/browserconfig.xml">
+    
+    
+    <link rel="alternate" href="/atom.xml" title="huldarchen's 博客" type="application/atom+xml" />
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="/favicons/favicon.ico">
+    
+    
+    <link rel="stylesheet" type="text/css" href="/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+    
+    <link rel="stylesheet" type="text/css" href="/css/sidebar.css">
+    
+    
+<link rel="stylesheet" type="text/css" href="/css/page.css">
+<link rel="stylesheet" type="text/css" href="/css/post.css">
+
+    <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    <link rel="stylesheet" type="text/css" href="/css/atom-one-dark.css">
+    <link rel="stylesheet" type="text/css" href="/css/lightgallery.min.css">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script defer type="text/javascript" src="/js/util.js"></script>
+    <script defer type="text/javascript" src="/js/clipboard.min.js"></script>
+    <script defer type="text/javascript" src="/js/scrollspy.js"></script>
+    <script defer type="text/javascript" src="/js/fontawesome-all.min.js"></script>
+    <script defer type="text/javascript" src="/js/lightgallery.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-fullscreen.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-hash.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-pager.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-thumbnail.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-zoom.min.js"></script>
+    
+    <script defer src="/js/busuanzi.pure.mini.js"></script>
+    
+    
+    <script defer type="text/javascript" src="/js/search.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+      var searchPath = "search.xml";
+      if (searchPath.length === 0) {
+        searchPath = "search.xml";
+      }
+      var path = "/" + searchPath;
+      searchFunc(path, "search-input", "search-result");
+    });
+    </script>
+    
+    
+    <script defer type="text/javascript" src="/js/index.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+      var cb = null;
+      var els = $(".post figure.highlight");
+      if (els.length) {
+        // Enabled Hexo highlight line number.
+        $(els).each(function (i, e) {
+          // $(e).before("<button class=\"copy button\">Copy</button>");
+          $(e).before([
+            "<div class=\"code-titlebar\">",
+              "<div class=\"titlebar-left\">",
+                "<button class=\"copy\" aria-label=\"Copy\"><i class=\"far fa-copy\"></i></button>",
+              "</div>",
+              "<div class=\"titlebar-center\">",
+                "code",
+              "</div>",
+              "<div class=\"titlebar-right\">",
+                "<button class=\"button-dot dot-minimize\" aria-label=\"Decoration\"></button>",
+                "<button class=\"button-dot dot-maximize\" aria-label=\"Decoration\"></button>",
+                "<button class=\"button-dot dot-close\" aria-label=\"Decoration\"></button>",
+              "</div>",
+            "</div>"
+          ].join(""));
+        });
+        cb = new ClipboardJS("button.copy", {
+          "target": function (trigger) {
+              // Get target element by DOM API.
+              return trigger.parentNode.parentNode.nextElementSibling.firstChild.firstChild.firstChild.lastChild.firstChild.firstChild;
+          }
+        });
+      } else {
+        // Disabled Hexo highlight line number.
+        els = $(".post pre code");
+        $(els).each(function (i, e) {
+          // Add button before pre, not code.
+          // $(e).parent().before("<button class=\"copy button\">Copy</button>");
+          $(e).before([
+            "<div class=\"code-titlebar\">",
+              "<div class=\"titlebar-left\">",
+                "<button class=\"copy\" aria-label=\"Copy\"><i class=\"far fa-copy\"></i></button>",
+              "</div>",
+              "<div class=\"titlebar-center\">",
+                "code",
+              "</div>",
+              "<div class=\"titlebar-right\">",
+                "<button class=\"button-dot dot-minimize\" aria-label=\"Decoration\"></button>",
+                "<button class=\"button-dot dot-maximize\" aria-label=\"Decoration\"></button>",
+                "<button class=\"button-dot dot-close\" aria-label=\"Decoration\"></button>",
+              "</div>",
+            "</div>"
+          ].join(""));
+        });
+        cb = new ClipboardJS("button.copy", {
+          "target": function (trigger) {
+              // Get target element by DOM API.
+              return trigger.parentNode.parentNode.nextElementSibling;
+          }
+        });
+      }
+      cb.on("success", function (e) {
+        e.clearSelection();
+        var trigger = e.trigger;
+        // Change button text as a user tip.
+        trigger.innerHTML = "<i class=\"far fa-check-square\"></i>";
+        $(trigger).addClass("copied");
+        // Change button text back;
+        setTimeout(function () {
+          trigger.innerHTML = "<i class=\"far fa-copy\"></i>";
+          $(trigger).removeClass("copied");
+        }, 1500);
+      });
+    });
+    </script>
+    
+    <script defer type="text/javascript" src="/js/custom.js"></script>
+    <title> | huldarchen's 博客</title>
+  <meta name="generator" content="Hexo 6.1.0"></head>
+  <body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN"  data-spy="scroll" data-target=".list-group">
+    
+<header id="header" class="header" style="background: #33363b;">
+  <div class="container">
+    <div class="header-container">
+      <div class="header-title">
+        <h1 class="title"><a href="/">huldarchen's 博客</a></h1>
+        <h2 class="subtitle"></h2>
+      </div>
+      
+      <div class="logo">
+        <img src="/images/logo.png" alt="logo">
+      </div>
+      
+    </div>
+    <nav id="nav" class="nav">
+      <a id="nav-toggle" class="nav-toggle" aria-hidden="true"><i class="fas fa-bars" aria-label="Toggle Navbar"></i></a>
+      <ul id="menu" role="menubar" aria-hidden="false">
+        
+        <li role="menuitem"><a href="/"><i class="fas fa-home"></i><span class="menu-text">Home</span></a></li>
+        
+        <li role="menuitem"><a href="/archives/"><i class="fas fa-archive"></i><span class="menu-text">Archives</span></a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+
+    <main id="main" class="main">
+      <div class="container">
+        <div class="main-container">
+          <div class="content">
+            
+<div id="post" class="page">
+  
+  <article class="article post card" itemscope itemtype="http://schema.org/Article">
+    <div class="post-block">
+      <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/24/spark%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/03-Expression%E5%88%86%E6%9E%90/">
+      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+       <meta itemprop="name" content="huldar chen">
+       <meta itemprop="description" content="">
+       <meta itemprop="image" content="/images/avatar.png">
+      </span>
+      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+       <meta itemprop="name" content="huldarchen's 博客">
+      </span>
+    </div>
+    <header class="post-header">
+      <h1 class="post-title" itemprop="name headline"></h1>
+      <div class="post-meta">
+        
+        <span class="post-date">
+          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2022-05-24T15:08:33+08:00">2022-05-24 15:08:33</time></span>
+        </span>
+        
+        
+        
+      </div>
+    </header>
+    <main class="post-main" itemprop="articleBody">
+      <h2 id="Expression是什么？"><a href="#Expression是什么？" class="headerlink" title="Expression是什么？"></a>Expression是什么？</h2><p>在SQL表达式中除了<code>SELECT</code>、<code>FROM</code> 等关键字以外，其他大部分元素都可以理解成是Expression。例如：</p>
+<figure class="hljs highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">SUM</span>(A), B <span class="hljs-keyword">FROM</span> T1 t <span class="hljs-keyword">WHERE</span> t.A <span class="hljs-operator">&gt;</span> <span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
+
+<p>其中<code>sum(A)</code>、<code>B</code>、<code>t.A &gt; 0</code>都是Expression。</p>
+<p><strong>Expression是不需要触发执行引擎而能够直接进行计算的单元。</strong></p>
+<p>计算单元：输入—计算—&gt;输出</p>
+<h2 id="Expression有哪些属性和重要方法？"><a href="#Expression有哪些属性和重要方法？" class="headerlink" title="Expression有哪些属性和重要方法？"></a>Expression有哪些属性和重要方法？</h2><p>Expression也是一颗树，继承了TreeNode。从5个方面拆解：</p>
+<ol>
+<li><strong>基本属性</strong><ul>
+<li><code>deterministic</code>：表达式是否为确定性的，即每次执行eval函数的输出是否都相同。 <code>a &gt; b</code>对于给定的输入有同样的输出，<code>rand()</code>对于给定的输入，每次输出结果不一致。主要用于优化阶段，谓词下推。</li>
+<li><code>foldable</code>:true表示表达式在执行查询之前是可以进行静态计算。</li>
+<li><code>resolved</code>、<code>childrenResolved</code>：是否解析了所有的<strong>占位符</strong>以及进行<strong>输入类型</strong>的检查。如果此表达式及其所有子表达式已解析了占位符并且输入数据类型检查通过，则返回“true”，如果仍包含任何未解析的占位符或数据类型不匹配，则返回“false”。<br>children为null的时候返回true。</li>
+<li><code>nullable</code>：<strong>用来标记表达式是否可能输出Null值</strong>，一般在<code>genCode()</code>生成的Java代码中对null值进行判断。</li>
+</ul>
+</li>
+<li><strong>输入输出</strong><ul>
+<li><code>dataType</code>：表达式计算后的输出结果的类型。对于unresolved的表达式是无效的。</li>
+<li><code>checkInputDataTypes</code>：检查输入的数据类型是否合法。当childrenResolved !&#x3D; true的时候这个方法是无效的。</li>
+<li><code>references</code>：表达引用到的列信息。默认为子节点的所有的引用的列进行去重集合<code>AttributeSet</code>。</li>
+<li><code>flatArgnuments</code>：表达式参数扁平化为迭代器。</li>
+</ul>
+</li>
+<li><strong>核心操作</strong><ul>
+<li><code>eval(input: InernalRow = null):Any</code>：对给定的输入行，计算并返回计算结果。</li>
+<li><code>genCode():ExprCode</code>和<code>doGenCode():ExprCode</code>：生成表达式对应的Java可编译的源码。</li>
+</ul>
+</li>
+<li><strong>等价性判断</strong><ul>
+<li><code>canonicalized</code>：表达式规范化。使用树的后续遍历，先对children节点进行规范化，最后规范化当前节点。使用<code>Canonicalize</code>工具类进行规范化。</li>
+<li><code>semanticEquals</code>：两个表达的计算结果是否一致。条件：两个表达式都是确定的，并且规范化后的表达式一致。</li>
+<li><code>semanticHash</code>：规范化后的表达式的hash值</li>
+</ul>
+</li>
+<li>字符串表示：<strong>输出表达式信息</strong></li>
+</ol>
+<h2 id="Expression的继承体系"><a href="#Expression的继承体系" class="headerlink" title="Expression的继承体系"></a>Expression的继承体系</h2><p>Expression在3.2版本中有687个子类。继承体系较为复杂，从属性维度，可以将Expression分为：不确定表达式、不可计算表达式、支持代码生成的表达式；从树的结构（子节点个数）上将Expression分为：叶子表达式、一元、二元、三元、四元、6+1（option）等。</p>
+<figure class="hljs highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs mermaid">graph LR<br>	A(Expression); B([Nondeterministic:不确定表达式]); C([Unevaluable:不可计算表达式]); D([CodegenFallback:支持代码生成的表达式]);E([LeafExpression:叶子节点]);F([UnaryExpression:一元]);G([BinaryExpression:二元]);H([TernaryExpression:三元]);I([QuaternaryExpression:四元]);J([SeptenaryExpression:6+1]);A1(属性角度);A2(结构角度);A3(ComplexTypeMergingExpression复杂类型合并表达式)<br>	A --&gt; A1<br>	A1 --&gt; B<br>	A1 --&gt; C<br>	A1 --&gt; D<br>	A --&gt; A2<br>	A2 --&gt; E<br>	A2 --&gt; F<br>	A2 --&gt; G<br>	A2 --&gt; H<br>	A2 --&gt; I<br>	A2 --&gt; J<br>	A --&gt; A3<br>	A3 --&gt; B1([CaseWhenB1])<br>	A3 --&gt; B2([If])<br>	A3 --&gt; B3([ArrayUnion])<br>	<br></code></pre></td></tr></table></figure>
+
+<h2 id="常用Expression详解"><a href="#常用Expression详解" class="headerlink" title="常用Expression详解"></a>常用Expression详解</h2><ol>
+<li><p>UnresolvedAttribute: 尚未解析的属性（字段,叶子节点），从名字上能看出来<code>resolved = false</code>，且不可计算。nameParts是对列的标识，<code>[t1,c1]</code>即<code>t1.c1</code></p>
+<figure class="hljs highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UnresolvedAttribute</span>(<span class="hljs-params">nameParts: <span class="hljs-type">Seq</span>[<span class="hljs-type">String</span>]</span>) <span class="hljs-keyword">extends</span> <span class="hljs-title">Attribute</span> <span class="hljs-keyword">with</span> <span class="hljs-title">Unevaluable</span></span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>UnresolvedStar：尚未解析的通配符<code>*</code>（叶子节点），<code>target</code>代表了要拓展的表名或者结构体名。</p>
+<figure class="hljs highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UnresolvedStar</span>(<span class="hljs-params">target: <span class="hljs-type">Option</span>[<span class="hljs-type">Seq</span>[<span class="hljs-type">String</span>]]</span>) <span class="hljs-keyword">extends</span> <span class="hljs-title">Star</span> <span class="hljs-keyword">with</span> <span class="hljs-title">Unevaluable</span></span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>UnresolvedFunction：标识未解析的函数。是一个不可计算的Expression。</p>
+<figure class="hljs highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UnresolvedFunction</span>(<span class="hljs-params"></span></span><br><span class="hljs-params"><span class="hljs-class">    nameParts: <span class="hljs-type">Seq</span>[<span class="hljs-type">String</span>], // 函数名称</span></span><br><span class="hljs-params"><span class="hljs-class">    arguments: <span class="hljs-type">Seq</span>[<span class="hljs-type">Expression</span>], // 函数参数</span></span><br><span class="hljs-params"><span class="hljs-class">    isDistinct: <span class="hljs-type">Boolean</span>,	// 结果是否是distinct</span></span><br><span class="hljs-params"><span class="hljs-class">    filter: <span class="hljs-type">Option</span>[<span class="hljs-type">Expression</span>] = <span class="hljs-type">None</span>, // 前置过滤</span></span><br><span class="hljs-params"><span class="hljs-class">    ignoreNulls: <span class="hljs-type">Boolean</span> = false</span>)	<span class="hljs-comment">// 是否忽视null值</span></span><br>  <span class="hljs-keyword">extends</span> <span class="hljs-type">Expression</span> <span class="hljs-keyword">with</span> <span class="hljs-type">Unevaluable</span> &#123;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>Alias：代表别名。是一元表达式。</p>
+<figure class="hljs highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Alias</span>(<span class="hljs-params">child: <span class="hljs-type">Expression</span>, // 子节点表达式</span></span><br><span class="hljs-params"><span class="hljs-class">                 name: <span class="hljs-type">String</span> // 别名</span></span><br><span class="hljs-params"><span class="hljs-class">                </span>)(<span class="hljs-params"></span></span><br><span class="hljs-params"><span class="hljs-class">    val exprId: <span class="hljs-type">ExprId</span> = <span class="hljs-type">NamedExpression</span>.newExprId,</span></span><br><span class="hljs-params"><span class="hljs-class">    val qualifier: <span class="hljs-type">Seq</span>[<span class="hljs-type">String</span>] = <span class="hljs-type">Seq</span>.empty,</span></span><br><span class="hljs-params"><span class="hljs-class">    val explicitMetadata: <span class="hljs-type">Option</span>[<span class="hljs-type">Metadata</span>] = <span class="hljs-type">None</span>,</span></span><br><span class="hljs-params"><span class="hljs-class">    val nonInheritableMetadataKeys: <span class="hljs-type">Seq</span>[<span class="hljs-type">String</span>] = <span class="hljs-type">Seq</span>.empty</span>)</span><br>  <span class="hljs-keyword">extends</span> <span class="hljs-type">UnaryExpression</span> <span class="hljs-keyword">with</span> <span class="hljs-type">NamedExpression</span> &#123;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>数值运算表达式：<code>Add</code>、<code>Abs</code>、<code>Subtract</code>、<code>Divide</code>等等位于arithmetic.scala文件中。</p>
+</li>
+<li><p>逻辑表达式：位于predicates.scala文件中。</p>
+<ul>
+<li>逻辑运算：<code>And</code>、<code>Or</code>、<code>Not</code></li>
+<li>数值比较：<code>EqualTo</code>、<code>LessThan</code>、<code>GreaterThan</code>等等</li>
+</ul>
+</li>
+<li><p>空值表达式：位于nullExpression.scala文件中</p>
+<ul>
+<li>判断：<code>IsNaN</code>、<code>IsNull</code>、<code>IsNotNull</code></li>
+<li>提取：<code>Coalesce</code>、<code>Nvl</code>、<code>Nvl2</code>等等</li>
+</ul>
+</li>
+</ol>
+<p>其他表达式不一一例举。 </p>
+
+    </main>
+    <footer class="post-footer">
+      
+    </footer>
+  </article>
+  
+  
+  <nav class="page-nav">
+    <div class="page-nav-next page-nav-item">
+      
+      <a href="/2022/05/19/spark%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/02-Analyzer%E8%A7%84%E5%88%99%E6%98%8E%E7%BB%86/" rel="next" title=""><i class="fas fa-angle-left"></i><span class="nav-title"></span></a>
+      
+    </div>
+    <div class="page-nav-prev page-nav-item">
+      
+      <a href="/2022/05/30/spark%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/04-SparkPlan/" rel="prev" title=""><span class="nav-title"></span><i class="fas fa-angle-right"></i></a>
+      
+    </div>
+  </nav>
+  
+  
+</div>
+
+          </div>
+          
+          
+          
+<aside class="sidebar" id="sidebar" style="background: url(/images/background.png);">
+  
+  <div class="search">
+    <div class="form-group">
+      <i class="fas fa-search"></i><input type="search" id="search-input" name="q" results="0" placeholder="Search" class="form-control"/>
+    </div>
+  </div>
+  <div class="search-result-box" id="search-result"></div>
+  
+  
+<div class="info sidebar-item" id="info">
+  
+  <img class="author-avatar" src="/images/avatar.png" alt="huldar chen">
+  
+  <h1 class="author-name">huldar chen</h1>
+  <h2 class="author-description"></h2>
+  <div class="site-count">
+    
+    
+    
+    
+    <div class="archives-count count-block">
+      <div class="site-count-title">Archives</div>
+      <div><a href="/archives/">19</a></div>
+    </div>
+    
+    
+  </div>
+  
+  <div class="rss">
+    <a class="rss-link button sidebar-item" href="/atom.xml"><i class="fas fa-rss"></i>RSS</a>
+  </div>
+  
+</div>
+
+
+  <div class="sidebar-sticky">
+    
+    
+    
+    
+    
+    <hr>
+    <div class="post-toc sidebar-item" id="toc-div">
+      <div><i class="fas fa-list-ol"></i>Table of Contents</div>
+      <div class="post-toc-content"><ol class="list-group toc"><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#Expression%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">Expression是什么？</span></a></li><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#Expression%E6%9C%89%E5%93%AA%E4%BA%9B%E5%B1%9E%E6%80%A7%E5%92%8C%E9%87%8D%E8%A6%81%E6%96%B9%E6%B3%95%EF%BC%9F"><span class="toc-text">Expression有哪些属性和重要方法？</span></a></li><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#Expression%E7%9A%84%E7%BB%A7%E6%89%BF%E4%BD%93%E7%B3%BB"><span class="toc-text">Expression的继承体系</span></a></li><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#%E5%B8%B8%E7%94%A8Expression%E8%AF%A6%E8%A7%A3"><span class="toc-text">常用Expression详解</span></a></li></ol></div>
+    </div>
+    
+    
+    
+    <hr>
+    <div class="social-link sidebar-item">
+      <div><i class="far fa-address-card"></i>Social Links</p></div>
+      <ul>
+        
+        <li><i class="fas fa-envelope"></i><a href="mailto:youremail@youremailhost" target="_blank">E-Mail</a></li>
+        
+        <li><i class="fab fa-github"></i><a href="https://github.com/" target="_blank">GitHub</a></li>
+        
+        <li><i class="fab fa-weibo"></i><a href="https://weibo.com/" target="_blank">Weibo</a></li>
+        
+      </ul>
+    </div>
+    
+    
+    <hr>
+    <div class="blogroll sidebar-item">
+      <div><i class="fas fa-link"></i>Blogroll</div>
+      <ul>
+        
+        <li><i class="fas fa-link"></i><a href="https://github.com/" target="_blank">GitHub</a></li>
+        
+        <li><i class="fas fa-link"></i><a href="https://developer.mozilla.org/" target="_blank">MDN</a></li>
+        
+        <li><i class="fas fa-link"></i><a href="https://mozilla.github.io/nunjucks/" target="_blank">Nunjucks</a></li>
+        
+      </ul>
+    </div>
+    
+  </div>
+</aside>
+
+
+          
+        </div>
+      </div>
+    </main>
+    
+<footer id="footer" class="footer" style="background: #33363b;">
+  <div class="container">
+    <div class="back-to-top">
+      <button id="back-to-top"><i class="fas fa-angle-double-up" aria-label="Back to Top"></i></button>
+    </div>
+    <div class="footer-container">
+      <div class="footer-left">
+        <div class="copyright">
+          <span class="author">huldar chen</span><span class="year"><i class="far fa-copyright"></i>2022</span>
+        </div>
+        
+        <div class="busuanzi">
+          <span id="busuanzi_container_site_pv"><i class="fas fa-eye" aria-label="Site Visit Count" aria-hidden="false"></i><span id="busuanzi_value_site_pv"></span></span><span id="busuanzi_container_site_uv"><i class="fas fa-user" aria-label="Site User Count" aria-hidden="false"></i><span id="busuanzi_value_site_uv"></span></span><span id="busuanzi_container_page_pv"><i class="far fa-file-alt"></i><span id="busuanzi_value_page_pv" aria-label="Page Click Count" aria-hidden="false"></span></span>
+        </div>
+        
+      </div>
+      <div class="footer-right">
+        <div class="custom-info">
+          
+          托管于<i class="fab fa-github-alt"></i><a href="https://pages.github.com/" target="_blank">GitHub Pages</a>
+          
+        </div>
+        <div class="powered-by">
+          Proudly Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> | Theme is <a href="https://github.com/AlynxZhou/hexo-theme-aria/" target="_blank">ARIA</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  </body>
+</html>

@@ -157,7 +157,7 @@
     </script>
     
     <script defer type="text/javascript" src="/js/custom.js"></script>
-    <title>Hello World | huldarchen's 博客</title>
+    <title> | huldarchen's 博客</title>
   <meta name="generator" content="Hexo 6.1.0"></head>
   <body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN"  data-spy="scroll" data-target=".list-group">
     
@@ -197,7 +197,7 @@
   
   <article class="article post card" itemscope itemtype="http://schema.org/Article">
     <div class="post-block">
-      <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/06/hello-world/">
+      <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/26/mysql-client-server-protocol/">
       <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
        <meta itemprop="name" content="huldar chen">
        <meta itemprop="description" content="">
@@ -208,11 +208,11 @@
       </span>
     </div>
     <header class="post-header">
-      <h1 class="post-title" itemprop="name headline">Hello World</h1>
+      <h1 class="post-title" itemprop="name headline"></h1>
       <div class="post-meta">
         
         <span class="post-date">
-          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2022-04-06T16:04:35+08:00">2022-04-06 16:04:35</time></span>
+          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2022-04-26T11:10:21+08:00">2022-04-26 11:10:21</time></span>
         </span>
         
         
@@ -220,19 +220,55 @@
       </div>
     </header>
     <main class="post-main" itemprop="articleBody">
-      <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="hljs highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="hljs highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="hljs highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="hljs highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+      <h2 id="mysql客户端和服务端协议"><a href="#mysql客户端和服务端协议" class="headerlink" title="mysql客户端和服务端协议"></a>mysql客户端和服务端协议</h2><h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p>mysql协议被用于客户端和服务端之间。它被实施于：</p>
+<ul>
+<li>连接器（connector&#x2F;c，connector&#x2F;j等等）</li>
+<li>MySQL代理</li>
+<li>主从副本服务间通信</li>
+</ul>
+<p>这个协议支持一下功能：</p>
+<p>- </p>
+<blockquote>
+<p>Caution</p>
+<p>If the first byte of a packet is a length-encoded integer and its byte value is <code>0xfe</code>, you must check the length of the packet to verify that it has enough space for a 8-byte integer.</p>
+<p>If not, it may be an <a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/internals/en/packet-EOF_Packet.html"><code>EOF_Packet</code></a> instead.</p>
+</blockquote>
+<h3 id="String-types"><a href="#String-types" class="headerlink" title="String types"></a>String types</h3><p>字符串是字节序列，有在协议中有几种形式：</p>
+<ul>
+<li><p>Protocol::FiexedLengthString</p>
+<p>实现 string&lt;fix&gt;</p>
+</li>
+<li><p>Protocol::NulTerminatedString</p>
+</li>
+</ul>
+<p>​    实现 string&lt;nul&gt;</p>
+<ul>
+<li>Protocol::VariableLengthString</li>
+</ul>
+<p>​    实现 string&lt;var&gt;</p>
+<ul>
+<li>Protocol::LengthEncodedString</li>
+</ul>
+<p>​    长度编码字符串是以长度编码整数为前缀的字符串，该整数描述字符串的长度。</p>
+<p>​    它是Protocol::VariableLengthString的一种特殊情况</p>
+<p>​    它的属性是：<code>length(int&lt;lenenc&gt;)</code>和<code>string(string&lt;fix&gt;)</code></p>
+<p>​    实现是 string&lt;lenenc&gt;</p>
+<ul>
+<li><p>Protocol::RestOfPacketString</p>
+<p>如果一个字符串是一个包的最后一个部分，它的长度可以从包的总长度减去当前位置来计算。</p>
+<p>实现 string&lt;EOF&gt;</p>
+</li>
+</ul>
+<h3 id="通用的响应包"><a href="#通用的响应包" class="headerlink" title="通用的响应包"></a>通用的响应包</h3><h4 id="OK-packet"><a href="#OK-packet" class="headerlink" title="OK packet"></a>OK packet</h4><p>![image-20220426143005601](&#x2F;Users&#x2F;huldarchen&#x2F;Library&#x2F;Application Support&#x2F;typora-user-images&#x2F;image-20220426143005601.png)</p>
+<p>这些规则区分数据包是代表 OK 还是 EOF：</p>
+<ul>
+<li>OK: <code>header</code> &#x3D; 0 and length of packet &gt; 7</li>
+<li>EOF: <code>header</code> &#x3D; 0xfe and length of packet &lt; 9</li>
+</ul>
+<h3 id="ERR-Packet"><a href="#ERR-Packet" class="headerlink" title="ERR_Packet"></a>ERR_Packet</h3><p>![image-20220426145412874](&#x2F;Users&#x2F;huldarchen&#x2F;Library&#x2F;Application Support&#x2F;typora-user-images&#x2F;image-20220426145412874.png)</p>
+<h3 id="EOF-Packet"><a href="#EOF-Packet" class="headerlink" title="EOF_Packet"></a>EOF_Packet</h3><p>![image-20220426145519601](&#x2F;Users&#x2F;huldarchen&#x2F;Library&#x2F;Application Support&#x2F;typora-user-images&#x2F;image-20220426145519601.png)</p>
+<h3 id="status-flags"><a href="#status-flags" class="headerlink" title="status flags"></a>status flags</h3><p>![image-20220426145648323](&#x2F;Users&#x2F;huldarchen&#x2F;Library&#x2F;Application Support&#x2F;typora-user-images&#x2F;image-20220426145648323.png)</p>
+<p>![image-20220426165016315](&#x2F;Users&#x2F;huldarchen&#x2F;Library&#x2F;Application Support&#x2F;typora-user-images&#x2F;image-20220426165016315.png)</p>
 
     </main>
     <footer class="post-footer">
@@ -244,10 +280,12 @@
   <nav class="page-nav">
     <div class="page-nav-next page-nav-item">
       
+      <a href="/2022/04/13/UniService-Feature-SQL%E8%A7%A3%E6%9E%90/" rel="next" title=""><i class="fas fa-angle-left"></i><span class="nav-title"></span></a>
+      
     </div>
     <div class="page-nav-prev page-nav-item">
       
-      <a href="/2022/04/11/spark-antlr4%E8%A7%A3%E6%9E%90sql%E7%94%9F%E6%88%90%E6%A0%91/" rel="prev" title="spark-antlr4解析sql生成树"><span class="nav-title">spark-antlr4解析sql生成树</span><i class="fas fa-angle-right"></i></a>
+      <a href="/2022/05/06/spark%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/01-sparksql%E8%AF%8D%E6%B3%95%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/" rel="prev" title=""><span class="nav-title"></span><i class="fas fa-angle-right"></i></a>
       
     </div>
   </nav>
@@ -304,7 +342,7 @@
     <hr>
     <div class="post-toc sidebar-item" id="toc-div">
       <div><i class="fas fa-list-ol"></i>Table of Contents</div>
-      <div class="post-toc-content"><ol class="list-group toc"><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#Quick-Start"><span class="toc-text">Quick Start</span></a><ol class="list-group toc-child"><li class="toc-item toc-level-3"><a class="list-group-item toc-link" href="#Create-a-new-post"><span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="list-group-item toc-link" href="#Run-server"><span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="list-group-item toc-link" href="#Generate-static-files"><span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="list-group-item toc-link" href="#Deploy-to-remote-sites"><span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+      <div class="post-toc-content"><ol class="list-group toc"><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#mysql%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%92%8C%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%8D%8F%E8%AE%AE"><span class="toc-text">mysql客户端和服务端协议</span></a></li><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#%E6%A6%82%E8%A7%88"><span class="toc-text">概览</span></a><ol class="list-group toc-child"><li class="toc-item toc-level-3"><a class="list-group-item toc-link" href="#String-types"><span class="toc-text">String types</span></a></li><li class="toc-item toc-level-3"><a class="list-group-item toc-link" href="#%E9%80%9A%E7%94%A8%E7%9A%84%E5%93%8D%E5%BA%94%E5%8C%85"><span class="toc-text">通用的响应包</span></a><ol class="list-group toc-child"><li class="toc-item toc-level-4"><a class="list-group-item toc-link" href="#OK-packet"><span class="toc-text">OK packet</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="list-group-item toc-link" href="#ERR-Packet"><span class="toc-text">ERR_Packet</span></a></li><li class="toc-item toc-level-3"><a class="list-group-item toc-link" href="#EOF-Packet"><span class="toc-text">EOF_Packet</span></a></li><li class="toc-item toc-level-3"><a class="list-group-item toc-link" href="#status-flags"><span class="toc-text">status flags</span></a></li></ol></li></ol></div>
     </div>
     
     

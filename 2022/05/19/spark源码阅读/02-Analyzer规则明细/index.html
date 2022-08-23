@@ -157,7 +157,7 @@
     </script>
     
     <script defer type="text/javascript" src="/js/custom.js"></script>
-    <title>Hello World | huldarchen's 博客</title>
+    <title> | huldarchen's 博客</title>
   <meta name="generator" content="Hexo 6.1.0"></head>
   <body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN"  data-spy="scroll" data-target=".list-group">
     
@@ -197,7 +197,7 @@
   
   <article class="article post card" itemscope itemtype="http://schema.org/Article">
     <div class="post-block">
-      <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/06/hello-world/">
+      <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/19/spark%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/02-Analyzer%E8%A7%84%E5%88%99%E6%98%8E%E7%BB%86/">
       <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
        <meta itemprop="name" content="huldar chen">
        <meta itemprop="description" content="">
@@ -208,11 +208,11 @@
       </span>
     </div>
     <header class="post-header">
-      <h1 class="post-title" itemprop="name headline">Hello World</h1>
+      <h1 class="post-title" itemprop="name headline"></h1>
       <div class="post-meta">
         
         <span class="post-date">
-          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2022-04-06T16:04:35+08:00">2022-04-06 16:04:35</time></span>
+          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2022-05-19T17:03:22+08:00">2022-05-19 17:03:22</time></span>
         </span>
         
         
@@ -220,19 +220,479 @@
       </div>
     </header>
     <main class="post-main" itemprop="articleBody">
-      <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="hljs highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="hljs highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="hljs highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="hljs highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+      <h2 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h2><table>
+<thead>
+<tr>
+<th>分类</th>
+<th>遍历次数</th>
+<th>规则名称</th>
+<th>作用</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Substitution</td>
+<td>fixedPoint</td>
+<td>OptimizeUpdateFields</td>
+<td>此规则优化了“UpdateFields”表达式链，因此看起来更像优化规则。然而，当操作深度嵌套的模式时，<code>UpdateFields</code>表达式树可能非常复杂，无法进行分析。因此，我们需要在分析之初就优化“UpdateFields”。</td>
+<td>前序遍历</td>
+</tr>
+<tr>
+<td>Substitution</td>
+<td>fixedPoint</td>
+<td>CTESubstitution</td>
+<td>根据以下条件，使用节点进行分析，并用CTE参考或CTE定义替换子计划：<br />1.如果处于传统模式，或者如果查询是SQL命令或DML语句，请替换为CTE定义，即内联CTE。<br />2.否则，替换为CTE的references的ctrelationref‘s。在查询分析之后，将由规则<code>InlineCTE</code>决定是否内联。<br />对于每个主查询和子查询，此替换后未内联的所有CTE定义都将分组在一个<code>WithCTE</code>节点下。任何不包含CTE或已内联所有CTE的主查询或子查询显然都不会有任何<code>WithCTE</code>节点。如果有的话，<code>WithCTE</code>节点将与最外层的<code>With</code>节点所在的位置相同。<br /><code>WithCTE</code>节点中的CTE定义按解析顺序保存。这意味着，根据CTE定义对任何有效CTE查询的依赖性，可以保证CTE定义按拓扑顺序排列（即，给定CTE定义A和B，B引用A，A保证出现在B之前）。否则，它必须是无效的用户查询，关系解析规则稍后将抛出分析异常。</td>
+<td>逻辑比较复杂</td>
+</tr>
+<tr>
+<td>Substitution</td>
+<td>fixedPoint</td>
+<td>WindowsSubstitution</td>
+<td>用 WindowSpecDefinitions 替代子计划，其中 WindowSpecDefinition 代表的是窗口函数的规范。</td>
+<td>前序遍历</td>
+</tr>
+<tr>
+<td>Substitution</td>
+<td>fixedPoint</td>
+<td>EliminateUnions</td>
+<td>如果只有一个子项，则从计划中删除 Union 算子</td>
+<td></td>
+</tr>
+<tr>
+<td>Substitution</td>
+<td>fixedPoint</td>
+<td>SubstituteUnresolvedOrdinals</td>
+<td>将<code>order by</code>或<code>group by</code>中的<code>Literal</code>序号替换为UnresolvedOrdinal表达式，其中UnresolvedOrdinal表示按order by或group by使用的未解析序号。例如：<code>select a from table order by 1 </code>和 <code>select a from table group by 1</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Disable Hints</td>
+<td>One</td>
+<td>ResolveHints.DisableHints</td>
+<td>当配置项spark.sql.optimizer.disableHints被设置时删除spark时的所有hints。这将在Analyzer的最开始执行，以禁用hints功能。</td>
+<td></td>
+</tr>
+<tr>
+<td>Hints</td>
+<td>fixedPoint</td>
+<td>ResolveHints.ResolveJoinStrategyHints</td>
+<td>joinHints处理</td>
+<td></td>
+</tr>
+<tr>
+<td>Hints</td>
+<td>fixedPoint</td>
+<td>ResolveHints.ResolveCoalesceHints</td>
+<td>重分区Hints处理</td>
+<td></td>
+</tr>
+<tr>
+<td>Simple Sanity Check</td>
+<td>One</td>
+<td>LookupFunctions</td>
+<td>检查函数是否注册<br />检查函数注册表中是否定义了 UnresolvedFunction 引用的函数标识符。请注意，此规则不会尝试解析 UnresolvedFunction。它仅根据函数标识符执行简单的存在性检查，以快速识别未定义的函数，而不触发关系解析，这在某些情况下可能会导致潜在的昂贵的分区模式发现过程。为了避免重复的外部函数查找，外部函数标识符将存储在本地哈希集externalFunctionNameSet中</td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolveTableValuedFunctions</td>
+<td>解析表值函数引用的规则。</td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolveNamespace</td>
+<td>解析诸如SHOW TABLES、SHOW FUNCTIONS之类的规则。SHOW TABLES&#x2F;SHOW TABLE EXTENDED&#x2F;SHOW VIEWS&#x2F;SHOW FUNCTIONS&#x2F;ANALYZE TABLES</td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolveCatalogs</td>
+<td>从 SQL 语句中的多部分标识符解析目录，如果解析的目录不是会话目录，则将语句转换为相应的 v2 命令。</td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolveUserSpecifiedColumns</td>
+<td>解析用户指定的列。</td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolveInsertInto</td>
+<td>解析INSERT INTO语句。</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Resolution</strong></td>
+<td><strong>fixedPoint</strong></td>
+<td><strong>ResolveRelations</strong></td>
+<td>用catalog中的具体关系替换未解析的关系（表和视图），比如：包含UnresolvedRelation节点</td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolveTables</td>
+<td>用v2目录中的具体关系解析表关系。[[ResolveRelations]]仍然解析v1表</td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolvePartitionSpec</td>
+<td>在分区相关命令中将 UnresolvedPartitionSpec 解析为 ResolvedPartitionSpec。</td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolveAlterTableCommands</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>AddMetadataColumns</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>DeduplicateRelations</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Resolution</strong></td>
+<td><strong>fixedPoint</strong></td>
+<td><strong>ResolveReferences</strong></td>
+<td><strong>将 UnresolvedAttributes 替换为来自逻辑计划节点的子节点的具体 AttributeReferences</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolveExpressionsWithNamePlaceholders</td>
+<td>如果表达式包含 NamePlaceholder，则解析表达式。</td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolveDeserializer</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolveNewInstance</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolveUpCast</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolveGroupingAnalytics</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolvePivot</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolveOrdinalInOrderByAndGroupBy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolveAggAliasInGroupBy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolveMissingReferences</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ExtractGenerator</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolveGenerate</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolveFunctions</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolveAliases</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolveSubquery</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolveSubqueryColumnAliases</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolveWindowOrder</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolveWindowFrame</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolveNaturalAndUsingJoin</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolveOutputRelation</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ExtractWindowExpressions</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>GlobalAggregates</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolveAggregateFunctions</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>TimeWindowing</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>SessionWindowing</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolveInlineTables</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolveHigherOrderFunctions(catalogManager)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolveLambdaVariables</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolveTimeZone</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolveRandomSeed</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolveBinaryArithmetic</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolveUnion</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>typeCoercionRules</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>ResolveWithCTE</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>fixedPoint</td>
+<td>extendedResolutionRules</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Remove TempResolvedColumn</td>
+<td>Once</td>
+<td>RemoveTempResolvedColumn</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Apply Char Padding</td>
+<td>Once</td>
+<td>ApplyCharTypePadding</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Post-Hoc Resolution</td>
+<td>Once</td>
+<td>ResolveCommandsWithIfExists</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Remove Unresolved Hints</td>
+<td>Once</td>
+<td>ResolveHints.RemoveAllHints</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Nondeterministic</td>
+<td>Once</td>
+<td>PullOutNondeterministic</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>UDF</td>
+<td>Once</td>
+<td>HandleNullInputsForUDF</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>UDF</td>
+<td>Once</td>
+<td>ResolveEncodersInUDF</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>UpdateNullability</td>
+<td>Once</td>
+<td>UpdateAttributeNullability</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Subquery</td>
+<td>Once</td>
+<td>UpdateOuterReferences</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Cleanup</td>
+<td>Once</td>
+<td>CleanupAliases</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>HandleAnalysisOnlyCommand</td>
+<td>Once</td>
+<td>HandleAnalysisOnlyCommand</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
 
     </main>
     <footer class="post-footer">
@@ -244,10 +704,12 @@
   <nav class="page-nav">
     <div class="page-nav-next page-nav-item">
       
+      <a href="/2022/05/19/scala%E6%8A%80%E5%B7%A7/ClassTag%E5%92%8CTypeTag%E6%AF%94%E8%BE%83/" rel="next" title=""><i class="fas fa-angle-left"></i><span class="nav-title"></span></a>
+      
     </div>
     <div class="page-nav-prev page-nav-item">
       
-      <a href="/2022/04/11/spark-antlr4%E8%A7%A3%E6%9E%90sql%E7%94%9F%E6%88%90%E6%A0%91/" rel="prev" title="spark-antlr4解析sql生成树"><span class="nav-title">spark-antlr4解析sql生成树</span><i class="fas fa-angle-right"></i></a>
+      <a href="/2022/05/24/spark%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/03-Expression%E5%88%86%E6%9E%90/" rel="prev" title=""><span class="nav-title"></span><i class="fas fa-angle-right"></i></a>
       
     </div>
   </nav>
@@ -304,7 +766,7 @@
     <hr>
     <div class="post-toc sidebar-item" id="toc-div">
       <div><i class="fas fa-list-ol"></i>Table of Contents</div>
-      <div class="post-toc-content"><ol class="list-group toc"><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#Quick-Start"><span class="toc-text">Quick Start</span></a><ol class="list-group toc-child"><li class="toc-item toc-level-3"><a class="list-group-item toc-link" href="#Create-a-new-post"><span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="list-group-item toc-link" href="#Run-server"><span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="list-group-item toc-link" href="#Generate-static-files"><span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="list-group-item toc-link" href="#Deploy-to-remote-sites"><span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+      <div class="post-toc-content"><ol class="list-group toc"><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#%E8%A7%84%E5%88%99"><span class="toc-text">规则</span></a></li></ol></div>
     </div>
     
     
